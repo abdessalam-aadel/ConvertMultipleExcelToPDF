@@ -42,6 +42,7 @@
             this.labelFooter2 = new System.Windows.Forms.Label();
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.labelDescription = new System.Windows.Forms.Label();
+            this.LinkGit = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
@@ -159,7 +160,7 @@
             this.labelFooter1.AutoSize = true;
             this.labelFooter1.BackColor = System.Drawing.SystemColors.Control;
             this.labelFooter1.ForeColor = System.Drawing.Color.DimGray;
-            this.labelFooter1.Location = new System.Drawing.Point(6, 201);
+            this.labelFooter1.Location = new System.Drawing.Point(4, 220);
             this.labelFooter1.Name = "labelFooter1";
             this.labelFooter1.Size = new System.Drawing.Size(130, 16);
             this.labelFooter1.TabIndex = 4;
@@ -170,7 +171,7 @@
             this.labelFooter2.AutoSize = true;
             this.labelFooter2.BackColor = System.Drawing.SystemColors.Control;
             this.labelFooter2.ForeColor = System.Drawing.Color.DimGray;
-            this.labelFooter2.Location = new System.Drawing.Point(444, 201);
+            this.labelFooter2.Location = new System.Drawing.Point(442, 220);
             this.labelFooter2.Name = "labelFooter2";
             this.labelFooter2.Size = new System.Drawing.Size(135, 16);
             this.labelFooter2.TabIndex = 5;
@@ -198,13 +199,24 @@
             this.labelDescription.Text = "Convert Multiple Excel file: is a simple \r\nprograme that allow you can convert \r\n" +
     "Multiple Excel files and multiple Folder \r\nto PDF in same Location.";
             // 
+            // LinkGit
+            // 
+            this.LinkGit.AutoSize = true;
+            this.LinkGit.Location = new System.Drawing.Point(267, 220);
+            this.LinkGit.Name = "LinkGit";
+            this.LinkGit.Size = new System.Drawing.Size(46, 16);
+            this.LinkGit.TabIndex = 0;
+            this.LinkGit.Text = "Github";
+            this.LinkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(580, 220);
+            this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.LinkGit);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelFooter2);
             this.Controls.Add(this.labelFooter1);
@@ -250,6 +262,7 @@
         private System.Windows.Forms.Label labelFooter2;
         private System.Windows.Forms.PictureBox pictureLogo;
         private System.Windows.Forms.Label labelDescription;
+        private System.Windows.Forms.LinkLabel LinkGit;
     }
 }
 

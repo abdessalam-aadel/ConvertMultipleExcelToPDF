@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.IO;
 using MultipleExcelToPDF;
+using System.Diagnostics;
 
 namespace ConvertMultipleExcelToPDF
 {
@@ -83,6 +84,11 @@ namespace ConvertMultipleExcelToPDF
         private void FrmMain_DragLeave(object sender, EventArgs e)
         {
             pictureDrag.Visible = false;
+        }
+
+        private void LinkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/abdessalam-aadel/ConvertMultipleExcelToPDF");
         }
     }
 }
