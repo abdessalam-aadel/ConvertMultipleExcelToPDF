@@ -165,87 +165,12 @@ namespace ConvertMultipleExcelToPDF
 
         public static void ProcessFiles(string[] XLSfiles, string[] files)
         {
-            excelApplication = new Excel.Application();
-            Excel.XlFixedFormatType paramExportFormat = Excel.XlFixedFormatType.xlTypePDF;
-            Excel.XlFixedFormatQuality paramExportQuality = Excel.XlFixedFormatQuality.xlQualityStandard;
-            bool paramOpenAfterPublish = false; // not open the pdf file after publish 
-            bool paramIncludeDocProps = true;
-            bool paramIgnorePrintAreas = true;
-            object paramFromPage = Type.Missing;
-            object paramToPage = Type.Missing;
-
             if (ischecked_DragFiles)
-            {
-                foreach (string filesPath in files)
-                {
-                    string paramSourceBookPath = filesPath;
-                    // Get Extension of filePath
-                    string extension = Path.GetExtension(filesPath);
-                    string paramExportFilePath = filesPath.Replace(extension, ".pdf"); // Replace Extension .xls or .xlsx
-
-                    // Open the source workbook.
-                    excelWorkBook = excelApplication.Workbooks.Open(paramSourceBookPath,
-                    paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing);
-
-                    // Save it in the target format.
-                    if (excelWorkBook != null)
-                    {
-                        if (ischecked_WorkBook)
-                            excelWorkBook.ExportAsFixedFormat(paramExportFormat,
-                            paramExportFilePath, paramExportQuality,
-                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                            paramToPage, paramOpenAfterPublish,
-                            paramMissing); // Convert Entire WorkBook to PDF
-                        else
-                            excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
-                            paramExportFilePath, paramExportQuality,
-                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                            paramToPage, paramOpenAfterPublish,
-                            paramMissing); // Convert Active Sheet(s) to PDF
-                    }
-                    CloseWorkBook();
-                }
-            }
-
+                StartConvert(files);
             else
-            {
-                foreach (string filePath in XLSfiles)
-                {
-                    string paramSourceBookPath = filePath;
-                    // Get Extension of filePath
-                    string extension = Path.GetExtension(filePath);
-                    string paramExportFilePath = filePath.Replace(extension, ".pdf"); // Replace Extension .xls or .xlsx
+                StartConvert(XLSfiles);
 
-                    // Open the source workbook.
-                    excelWorkBook = excelApplication.Workbooks.Open(paramSourceBookPath,
-                    paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing, paramMissing, paramMissing,
-                            paramMissing, paramMissing);
-
-                    // Save it in the target format.
-                    if (excelWorkBook != null)
-                    {
-                        if (ischecked_WorkBook)
-                            excelWorkBook.ExportAsFixedFormat(paramExportFormat,
-                            paramExportFilePath, paramExportQuality,
-                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                            paramToPage, paramOpenAfterPublish,
-                            paramMissing); // Convert Entire WorkBook to PDF
-                        else
-                            excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
-                            paramExportFilePath, paramExportQuality,
-                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                            paramToPage, paramOpenAfterPublish,
-                            paramMissing); // Convert Active Sheet(s) to PDF
-                    }
-                    CloseWorkBook();
-                }
-            }
-            
+            // Exit Excel
             QuitExcel();
         }
 
@@ -295,6 +220,52 @@ namespace ConvertMultipleExcelToPDF
                 ischecked_DragFiles = false;
                 BtnLoad.Enabled = true;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular);
+            }
+        }
+
+        // Start Method StartConvert
+        public static void StartConvert(string[] ExcelFiles)
+        {
+            excelApplication = new Excel.Application();
+            Excel.XlFixedFormatType paramExportFormat = Excel.XlFixedFormatType.xlTypePDF;
+            Excel.XlFixedFormatQuality paramExportQuality = Excel.XlFixedFormatQuality.xlQualityStandard;
+            bool paramOpenAfterPublish = false; // not open the pdf file after publish 
+            bool paramIncludeDocProps = true;
+            bool paramIgnorePrintAreas = true;
+            object paramFromPage = Type.Missing;
+            object paramToPage = Type.Missing;
+
+            foreach (string filesPath in ExcelFiles)
+            {
+                string paramSourceBookPath = filesPath;
+                // Get Extension of filePath
+                string extension = Path.GetExtension(filesPath);
+                string paramExportFilePath = filesPath.Replace(extension, ".pdf"); // Replace Extension .xls or .xlsx
+
+                // Open the source workbook.
+                excelWorkBook = excelApplication.Workbooks.Open(paramSourceBookPath,
+                paramMissing, paramMissing, paramMissing, paramMissing,
+                        paramMissing, paramMissing, paramMissing, paramMissing,
+                        paramMissing, paramMissing, paramMissing, paramMissing,
+                        paramMissing, paramMissing);
+
+                // Save it in the target format.
+                if (excelWorkBook != null)
+                {
+                    if (ischecked_WorkBook)
+                        excelWorkBook.ExportAsFixedFormat(paramExportFormat,
+                        paramExportFilePath, paramExportQuality,
+                        paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
+                        paramToPage, paramOpenAfterPublish,
+                        paramMissing); // Convert Entire WorkBook to PDF
+                    else
+                        excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
+                        paramExportFilePath, paramExportQuality,
+                        paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
+                        paramToPage, paramOpenAfterPublish,
+                        paramMissing); // Convert Active Sheet(s) to PDF
+                }
+                CloseWorkBook();
             }
         }
     }
