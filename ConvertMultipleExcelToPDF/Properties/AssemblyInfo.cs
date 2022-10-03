@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ConvertMultipleExcelToPDF")]
-[assembly: AssemblyDescription("Convert multiple Excel file to PDF in same folder")]
+[assembly: AssemblyDescription("Convert multiple Excel files to PDF in same folder")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ConvertMultipleExcelToPDF")]

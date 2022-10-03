@@ -43,6 +43,8 @@
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.labelDescription = new System.Windows.Forms.Label();
             this.LinkGit = new System.Windows.Forms.LinkLabel();
+            this.checkBoxAllWorkBook = new System.Windows.Forms.CheckBox();
+            this.checkBoxDragFiles = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             this.SuspendLayout();
@@ -65,13 +67,13 @@
             this.BtnLoad.FlatAppearance.MouseDownBackColor = System.Drawing.Color.OrangeRed;
             this.BtnLoad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(95)))), ((int)(((byte)(34)))));
             this.BtnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLoad.ForeColor = System.Drawing.Color.White;
+            this.BtnLoad.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.BtnLoad.Location = new System.Drawing.Point(389, 6);
             this.BtnLoad.Name = "BtnLoad";
             this.BtnLoad.Size = new System.Drawing.Size(182, 31);
             this.BtnLoad.TabIndex = 0;
             this.BtnLoad.TabStop = false;
-            this.BtnLoad.Text = "...";
+            this.BtnLoad.Text = "Load ...";
             this.BtnLoad.UseVisualStyleBackColor = false;
             this.BtnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
@@ -194,20 +196,52 @@
             this.labelDescription.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.labelDescription.Location = new System.Drawing.Point(6, 131);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(237, 64);
+            this.labelDescription.Size = new System.Drawing.Size(232, 64);
             this.labelDescription.TabIndex = 0;
             this.labelDescription.Text = "Convert Multiple Excel file: is a simple \r\nprograme that allow you can convert \r\n" +
-    "Multiple Excel files and multiple Folder \r\nto PDF in same Location.";
+    "Multiple Excel files in multiple Folder \r\nto PDF in same Location.";
             // 
             // LinkGit
             // 
             this.LinkGit.AutoSize = true;
+            this.LinkGit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LinkGit.Location = new System.Drawing.Point(267, 220);
             this.LinkGit.Name = "LinkGit";
             this.LinkGit.Size = new System.Drawing.Size(46, 16);
             this.LinkGit.TabIndex = 0;
+            this.LinkGit.TabStop = true;
             this.LinkGit.Text = "Github";
             this.LinkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
+            // 
+            // checkBoxAllWorkBook
+            // 
+            this.checkBoxAllWorkBook.AutoSize = true;
+            this.checkBoxAllWorkBook.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxAllWorkBook.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxAllWorkBook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxAllWorkBook.ForeColor = System.Drawing.Color.OrangeRed;
+            this.checkBoxAllWorkBook.Location = new System.Drawing.Point(311, 57);
+            this.checkBoxAllWorkBook.Name = "checkBoxAllWorkBook";
+            this.checkBoxAllWorkBook.Size = new System.Drawing.Size(120, 20);
+            this.checkBoxAllWorkBook.TabIndex = 7;
+            this.checkBoxAllWorkBook.Text = "Entire workbook";
+            this.checkBoxAllWorkBook.UseVisualStyleBackColor = false;
+            this.checkBoxAllWorkBook.CheckedChanged += new System.EventHandler(this.checkBoxAllWorkBook_CheckedChanged);
+            // 
+            // checkBoxDragFiles
+            // 
+            this.checkBoxDragFiles.AutoSize = true;
+            this.checkBoxDragFiles.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxDragFiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBoxDragFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkBoxDragFiles.ForeColor = System.Drawing.Color.OrangeRed;
+            this.checkBoxDragFiles.Location = new System.Drawing.Point(311, 73);
+            this.checkBoxDragFiles.Name = "checkBoxDragFiles";
+            this.checkBoxDragFiles.Size = new System.Drawing.Size(74, 20);
+            this.checkBoxDragFiles.TabIndex = 8;
+            this.checkBoxDragFiles.Text = "Drag file";
+            this.checkBoxDragFiles.UseVisualStyleBackColor = false;
+            this.checkBoxDragFiles.CheckedChanged += new System.EventHandler(this.checkBoxDragFiles_CheckedChanged);
             // 
             // FrmMain
             // 
@@ -216,6 +250,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.checkBoxDragFiles);
+            this.Controls.Add(this.checkBoxAllWorkBook);
             this.Controls.Add(this.LinkGit);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelFooter2);
@@ -263,6 +299,8 @@
         private System.Windows.Forms.PictureBox pictureLogo;
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.LinkLabel LinkGit;
+        private System.Windows.Forms.CheckBox checkBoxAllWorkBook;
+        private System.Windows.Forms.CheckBox checkBoxDragFiles;
     }
 }
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace ConvertMultipleExcelToPDF
@@ -17,5 +15,6 @@ namespace ConvertMultipleExcelToPDF
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmMain());
         }
+        
     }
 }
