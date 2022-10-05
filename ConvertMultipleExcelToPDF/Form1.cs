@@ -98,12 +98,16 @@ namespace ConvertMultipleExcelToPDF
             e.Effect = DragDropEffects.Copy;
             pictureDrag.Visible = true;
             labelErrorMessage.Text = string.Empty;
+            labelInfo.Text = string.Empty;
             IconError.Visible = false;
+            TxtFolderName.Text = string.Empty;
+            LoadingImage.Visible = true;
         }
 
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
             pictureDrag.Visible = false;
+            LoadingImage.Visible = false;
 
             if (ischecked_DragFiles)
             {
@@ -111,10 +115,13 @@ namespace ConvertMultipleExcelToPDF
                 foreach (string file in files)
                 {
                     string extensionfile = Path.GetExtension(file);
-                    if (extensionfile != ".xls" && extensionfile != ".xlsx")
-                        excelDragged = false;
                     if (extensionfile == ".xls" || extensionfile == ".xlsx")
                         excelDragged = true;
+                    else
+                    {
+                        excelDragged = false;
+                        break;
+                    }
                 }
 
                 if (excelDragged)
@@ -143,12 +150,20 @@ namespace ConvertMultipleExcelToPDF
                     fileCount = SearchDirectoryTree(path, out XLSfiles);
                     labelInfo.Text = fileCount + " Excel files found";
                 }
+                else
+                {
+                    TxtFolderName.Text = "No Folder was Dragged";
+                    labelInfo.Text = "...";
+                }
             }
         }
 
         private void FrmMain_DragLeave(object sender, EventArgs e)
         {
             pictureDrag.Visible = false;
+            LoadingImage.Visible = false;
+            TxtFolderName.Text = "Chose your Folder Location ...";
+            labelInfo.Text = "...";
         }
 
         private void LinkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -32,7 +32,6 @@
             this.TxtFolderName = new System.Windows.Forms.Label();
             this.BtnLoad = new System.Windows.Forms.Button();
             this.labelDragFolder = new System.Windows.Forms.Label();
-            this.pictureDrag = new System.Windows.Forms.PictureBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.BtnLetsGo = new System.Windows.Forms.Button();
             this.labelErrorMessage = new System.Windows.Forms.Label();
@@ -40,13 +39,16 @@
             this.button1 = new System.Windows.Forms.Button();
             this.labelFooter1 = new System.Windows.Forms.Label();
             this.labelFooter2 = new System.Windows.Forms.Label();
-            this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.labelDescription = new System.Windows.Forms.Label();
             this.LinkGit = new System.Windows.Forms.LinkLabel();
             this.checkBoxAllWorkBook = new System.Windows.Forms.CheckBox();
             this.checkBoxDragFiles = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
+            this.LoadingImage = new System.Windows.Forms.PictureBox();
+            this.pictureLogo = new System.Windows.Forms.PictureBox();
+            this.pictureDrag = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtFolderName
@@ -86,17 +88,6 @@
             this.labelDragFolder.Size = new System.Drawing.Size(179, 16);
             this.labelDragFolder.TabIndex = 0;
             this.labelDragFolder.Text = "Click here or drag your folder";
-            // 
-            // pictureDrag
-            // 
-            this.pictureDrag.Image = ((System.Drawing.Image)(resources.GetObject("pictureDrag.Image")));
-            this.pictureDrag.Location = new System.Drawing.Point(250, 87);
-            this.pictureDrag.Name = "pictureDrag";
-            this.pictureDrag.Size = new System.Drawing.Size(152, 127);
-            this.pictureDrag.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureDrag.TabIndex = 3;
-            this.pictureDrag.TabStop = false;
-            this.pictureDrag.Visible = false;
             // 
             // labelInfo
             // 
@@ -179,16 +170,6 @@
             this.labelFooter2.TabIndex = 5;
             this.labelFooter2.Text = "Abdessalam AADEL.";
             // 
-            // pictureLogo
-            // 
-            this.pictureLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureLogo.Image")));
-            this.pictureLogo.Location = new System.Drawing.Point(390, 63);
-            this.pictureLogo.Name = "pictureLogo";
-            this.pictureLogo.Size = new System.Drawing.Size(180, 142);
-            this.pictureLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureLogo.TabIndex = 6;
-            this.pictureLogo.TabStop = false;
-            // 
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
@@ -243,6 +224,39 @@
             this.checkBoxDragFiles.UseVisualStyleBackColor = false;
             this.checkBoxDragFiles.CheckedChanged += new System.EventHandler(this.checkBoxDragFiles_CheckedChanged);
             // 
+            // LoadingImage
+            // 
+            this.LoadingImage.BackColor = System.Drawing.Color.Transparent;
+            this.LoadingImage.Image = global::ConvertMultipleExcelToPDF.Properties.Resources.loading;
+            this.LoadingImage.Location = new System.Drawing.Point(77, 1);
+            this.LoadingImage.Name = "LoadingImage";
+            this.LoadingImage.Size = new System.Drawing.Size(161, 50);
+            this.LoadingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.LoadingImage.TabIndex = 9;
+            this.LoadingImage.TabStop = false;
+            this.LoadingImage.Visible = false;
+            // 
+            // pictureLogo
+            // 
+            this.pictureLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureLogo.Image")));
+            this.pictureLogo.Location = new System.Drawing.Point(390, 63);
+            this.pictureLogo.Name = "pictureLogo";
+            this.pictureLogo.Size = new System.Drawing.Size(180, 142);
+            this.pictureLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureLogo.TabIndex = 6;
+            this.pictureLogo.TabStop = false;
+            // 
+            // pictureDrag
+            // 
+            this.pictureDrag.Image = ((System.Drawing.Image)(resources.GetObject("pictureDrag.Image")));
+            this.pictureDrag.Location = new System.Drawing.Point(250, 87);
+            this.pictureDrag.Name = "pictureDrag";
+            this.pictureDrag.Size = new System.Drawing.Size(152, 127);
+            this.pictureDrag.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureDrag.TabIndex = 3;
+            this.pictureDrag.TabStop = false;
+            this.pictureDrag.Visible = false;
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -250,6 +264,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.LoadingImage);
             this.Controls.Add(this.checkBoxDragFiles);
             this.Controls.Add(this.checkBoxAllWorkBook);
             this.Controls.Add(this.LinkGit);
@@ -276,8 +291,9 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.DragLeave += new System.EventHandler(this.FrmMain_DragLeave);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,6 +317,7 @@
         private System.Windows.Forms.LinkLabel LinkGit;
         private System.Windows.Forms.CheckBox checkBoxAllWorkBook;
         private System.Windows.Forms.CheckBox checkBoxDragFiles;
+        private System.Windows.Forms.PictureBox LoadingImage;
     }
 }
 
