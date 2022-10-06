@@ -157,7 +157,7 @@
             this.labelFooter1.Name = "labelFooter1";
             this.labelFooter1.Size = new System.Drawing.Size(130, 16);
             this.labelFooter1.TabIndex = 4;
-            this.labelFooter1.Text = "© 2020 Excel to PDF.";
+            this.labelFooter1.Text = "© 2022 Excel to PDF.";
             // 
             // labelFooter2
             // 
@@ -218,9 +218,9 @@
             this.checkBoxDragFiles.ForeColor = System.Drawing.Color.OrangeRed;
             this.checkBoxDragFiles.Location = new System.Drawing.Point(311, 73);
             this.checkBoxDragFiles.Name = "checkBoxDragFiles";
-            this.checkBoxDragFiles.Size = new System.Drawing.Size(74, 20);
+            this.checkBoxDragFiles.Size = new System.Drawing.Size(117, 20);
             this.checkBoxDragFiles.TabIndex = 8;
-            this.checkBoxDragFiles.Text = "Drag file";
+            this.checkBoxDragFiles.Text = "Drag Excel files";
             this.checkBoxDragFiles.UseVisualStyleBackColor = false;
             this.checkBoxDragFiles.CheckedChanged += new System.EventHandler(this.checkBoxDragFiles_CheckedChanged);
             // 
@@ -264,7 +264,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
-            this.Controls.Add(this.LoadingImage);
             this.Controls.Add(this.checkBoxDragFiles);
             this.Controls.Add(this.checkBoxAllWorkBook);
             this.Controls.Add(this.LinkGit);
@@ -280,6 +279,7 @@
             this.Controls.Add(this.TxtFolderName);
             this.Controls.Add(this.pictureLogo);
             this.Controls.Add(this.pictureDrag);
+            this.Controls.Add(this.LoadingImage);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

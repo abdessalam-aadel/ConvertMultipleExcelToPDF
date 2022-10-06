@@ -106,8 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExcelToPDF.ico" />
-    <None Include="Resources\loader-1.gif" />
-    <None Include="Resources\loader.gif" />
     <None Include="Resources\loading.gif" />
   </ItemGroup>
   <ItemGroup>
