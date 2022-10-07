@@ -9,8 +9,11 @@ namespace ConvertMultipleExcelToPDF
 {
     public partial class FrmMain : Form
     {
+        // Array of Excel Files found in Folder
         string[] XLSfiles;
+        // Array of Excel Files Dragged Directly in form main
         string[] files;
+
         int fileCount = 0;
         public static bool excelDragged = false;
         public static bool ischecked_WorkBook = false;
@@ -70,12 +73,16 @@ namespace ConvertMultipleExcelToPDF
                 labelErrorMessage.Text = ex.Message.ToString();
                 Cursor = Cursors.Default;
                 labelInfo.Text = "...";
-                TxtFolderName.Text = "Chose your Folder Location ...";
+                if (ischecked_DragFiles)
+                    TxtFolderName.Text = "Drag your Excel files ...";
+                else
+                    TxtFolderName.Text = "Chose your Folder Location ...";
                 IconError.Visible = false;
                 CloseWorkBook();
                 QuitExcel();
             }
-}
+        }
+
         // Handle Event Click of Buttton Load Folder
         private void BtnLoad_Click(object sender, EventArgs e)
         {
@@ -112,6 +119,7 @@ namespace ConvertMultipleExcelToPDF
 
             if (ischecked_DragFiles)
             {
+                // Handle event Drag the Excel files.
                 files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string file in files)
                 {
@@ -127,7 +135,7 @@ namespace ConvertMultipleExcelToPDF
 
                 if (excelDragged)
                 {
-                    TxtFolderName.Text = "Excel Files was Dragged";
+                    TxtFolderName.Text = "Excel Files was Dragged correctly.";
                     labelErrorMessage.Text = string.Empty;
                     IconError.Visible = false;
                     labelInfo.Text = files.Length + " Excel files found";
@@ -142,6 +150,7 @@ namespace ConvertMultipleExcelToPDF
 
             else
             {
+                // Handle event Drag the Folder.
                 string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
                 if (Directory.Exists(path))
                 {
@@ -173,14 +182,18 @@ namespace ConvertMultipleExcelToPDF
             Process.Start("https://github.com/abdessalam-aadel/ConvertMultipleExcelToPDF");
         }
 
+        // Handle Methode Search Directory and Get all Excel files found,
+        // and bring out to the string array
         public static int SearchDirectoryTree(string path, out string[] XLSfiles)
         {
             XLSfiles = Directory.GetFiles(path, "*.xls", SearchOption.AllDirectories);
             return XLSfiles.Length;
         }
 
+        // Start Methode ProcessFiles
         public static void ProcessFiles(string[] XLSfiles, string[] files)
         {
+            // Condition to separat : Folder or Excel files was Dragged
             if (ischecked_DragFiles)
                 StartConvert(files);
             else
@@ -193,9 +206,9 @@ namespace ConvertMultipleExcelToPDF
         // Start Method CloseWorkBook
         public static void CloseWorkBook()
         {
-            // Close the workbook object.
             if (excelWorkBook != null)
             {
+                // Close the workbook object.
                 excelWorkBook.Close(false, paramMissing, paramMissing);
                 excelWorkBook = null;
             }
@@ -211,7 +224,14 @@ namespace ConvertMultipleExcelToPDF
                 excelApplication = null;
             }
 
+            // Force garbage collection.
             GC.Collect();
+            // Wait for all finalizers to complete before continuing.
+            // Without this call to GC.WaitForPendingFinalizers,
+            // the worker loop below might execute at the same time
+            // as the finalizers. 
+            // With this call, the worker loop executes only after
+            // all finalizers have been called.
             GC.WaitForPendingFinalizers();
         }
 
@@ -228,6 +248,7 @@ namespace ConvertMultipleExcelToPDF
             if (checkBoxDragFiles.Checked)
             {
                 TxtFolderName.Text = "Drag your Excel files ...";
+                labelInfo.Text = "...";
                 ischecked_DragFiles = true;
                 BtnLoad.Enabled = false;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Strikeout);
@@ -235,6 +256,7 @@ namespace ConvertMultipleExcelToPDF
             else
             {
                 TxtFolderName.Text = "Chose your Folder Location ...";
+                labelInfo.Text = "...";
                 ischecked_DragFiles = false;
                 BtnLoad.Enabled = true;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular);
@@ -244,13 +266,26 @@ namespace ConvertMultipleExcelToPDF
         // Start Method StartConvert
         public static void StartConvert(string[] ExcelFiles)
         {
+            // Creat new instance of Microsoft Excel Application
             excelApplication = new Excel.Application();
+
+            // Declare Parameters :
+            // ...
+            // XlFixedFormatType object : Specifie whether to save the workbook (PDF format).
             Excel.XlFixedFormatType paramExportFormat = Excel.XlFixedFormatType.xlTypePDF;
+            // XlFixedFormatQuality object : Specifie the quality of the exported file (Standard Quality).
             Excel.XlFixedFormatQuality paramExportQuality = Excel.XlFixedFormatQuality.xlQualityStandard;
-            bool paramOpenAfterPublish = false; // not open the pdf file after publish 
+            // Not open the pdf file after exporting the workbook
+            bool paramOpenAfterPublish = false;
+            // Include document properties in the exported file
             bool paramIncludeDocProps = true;
+            // Ignore any print areas set when exporting
             bool paramIgnorePrintAreas = true;
+            // from Object: is the number of the page at which to start exporting,
+            // If this parameter is omitted, exporting starts at the beginning.
             object paramFromPage = Type.Missing;
+            // to Object: is the number of the last page to export,
+            // If this parameter is omitted, exporting ends with the last page.
             object paramToPage = Type.Missing;
 
             foreach (string filesPath in ExcelFiles)
