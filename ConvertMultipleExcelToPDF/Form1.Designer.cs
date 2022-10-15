@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.TxtFolderName = new System.Windows.Forms.Label();
             this.BtnLoad = new System.Windows.Forms.Button();
@@ -43,12 +44,13 @@
             this.LinkGit = new System.Windows.Forms.LinkLabel();
             this.checkBoxAllWorkBook = new System.Windows.Forms.CheckBox();
             this.checkBoxDragFiles = new System.Windows.Forms.CheckBox();
-            this.LoadingImage = new System.Windows.Forms.PictureBox();
+            this.toolTipDrag = new System.Windows.Forms.ToolTip(this.components);
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.pictureDrag = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
+            this.LoadingImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtFolderName
@@ -206,6 +208,8 @@
             this.checkBoxAllWorkBook.Size = new System.Drawing.Size(120, 20);
             this.checkBoxAllWorkBook.TabIndex = 7;
             this.checkBoxAllWorkBook.Text = "Entire workbook";
+            this.toolTipDrag.SetToolTip(this.checkBoxAllWorkBook, "Activate this option to convert All sheet to PDF,\r\nif was not checked, it only co" +
+        "nverts Active sheet(s).");
             this.checkBoxAllWorkBook.UseVisualStyleBackColor = false;
             this.checkBoxAllWorkBook.CheckedChanged += new System.EventHandler(this.checkBoxAllWorkBook_CheckedChanged);
             // 
@@ -221,20 +225,9 @@
             this.checkBoxDragFiles.Size = new System.Drawing.Size(117, 20);
             this.checkBoxDragFiles.TabIndex = 8;
             this.checkBoxDragFiles.Text = "Drag Excel files";
+            this.toolTipDrag.SetToolTip(this.checkBoxDragFiles, "Activate this option to Drag & Drop\r\njust Excel files.");
             this.checkBoxDragFiles.UseVisualStyleBackColor = false;
             this.checkBoxDragFiles.CheckedChanged += new System.EventHandler(this.checkBoxDragFiles_CheckedChanged);
-            // 
-            // LoadingImage
-            // 
-            this.LoadingImage.BackColor = System.Drawing.Color.Transparent;
-            this.LoadingImage.Image = global::ConvertMultipleExcelToPDF.Properties.Resources.loading;
-            this.LoadingImage.Location = new System.Drawing.Point(77, 1);
-            this.LoadingImage.Name = "LoadingImage";
-            this.LoadingImage.Size = new System.Drawing.Size(161, 50);
-            this.LoadingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.LoadingImage.TabIndex = 9;
-            this.LoadingImage.TabStop = false;
-            this.LoadingImage.Visible = false;
             // 
             // pictureLogo
             // 
@@ -256,6 +249,18 @@
             this.pictureDrag.TabIndex = 3;
             this.pictureDrag.TabStop = false;
             this.pictureDrag.Visible = false;
+            // 
+            // LoadingImage
+            // 
+            this.LoadingImage.BackColor = System.Drawing.Color.Transparent;
+            this.LoadingImage.Image = global::ConvertMultipleExcelToPDF.Properties.Resources.loading;
+            this.LoadingImage.Location = new System.Drawing.Point(77, 1);
+            this.LoadingImage.Name = "LoadingImage";
+            this.LoadingImage.Size = new System.Drawing.Size(161, 50);
+            this.LoadingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.LoadingImage.TabIndex = 9;
+            this.LoadingImage.TabStop = false;
+            this.LoadingImage.Visible = false;
             // 
             // FrmMain
             // 
@@ -291,9 +296,9 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.DragLeave += new System.EventHandler(this.FrmMain_DragLeave);
-            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -318,6 +323,7 @@
         private System.Windows.Forms.CheckBox checkBoxAllWorkBook;
         private System.Windows.Forms.CheckBox checkBoxDragFiles;
         private System.Windows.Forms.PictureBox LoadingImage;
+        private System.Windows.Forms.ToolTip toolTipDrag;
     }
 }
 
