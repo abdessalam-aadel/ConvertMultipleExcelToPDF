@@ -4,6 +4,7 @@ using System.IO;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace ConvertMultipleExcelToPDF
 {
@@ -13,6 +14,7 @@ namespace ConvertMultipleExcelToPDF
         string[] XLSfiles;
         // Array of Excel Files Dragged Directly in form main
         string[] files;
+        string selected_path;
 
         int fileCount = 0;
         public static bool excelDragged = false;
@@ -22,10 +24,7 @@ namespace ConvertMultipleExcelToPDF
         private static Excel.Workbook excelWorkBook = null;
         private static object paramMissing = Type.Missing;
 
-        public FrmMain()
-        {
-            InitializeComponent();
-        }
+        public FrmMain() => InitializeComponent();
 
         // Handle Event Click of Buttton Let's Go
         private void BtnLetsGo_Click(object sender, EventArgs e)
@@ -90,9 +89,12 @@ namespace ConvertMultipleExcelToPDF
             pictureDrag.Visible = false;
             IconError.Visible = false;
             FolderBrowserDialog FD = new FolderBrowserDialog();
+            if (selected_path != null)
+                FD.SelectedPath = selected_path;
             if (FD.ShowDialog() == DialogResult.OK)
             {
                 string path = FD.SelectedPath;
+                selected_path = path;
                 TxtFolderName.Text = path;
                 fileCount = SearchDirectoryTree(path, out XLSfiles);
                 labelInfo.Text = fileCount + " Excel files found";
@@ -124,6 +126,7 @@ namespace ConvertMultipleExcelToPDF
                 foreach (string file in files)
                 {
                     string extensionfile = Path.GetExtension(file);
+
                     if (extensionfile == ".xls" || extensionfile == ".xlsx")
                         excelDragged = true;
                     else
@@ -174,12 +177,6 @@ namespace ConvertMultipleExcelToPDF
             LoadingImage.Visible = false;
             TxtFolderName.Visible = true;
             labelInfo.Text = "...";
-        }
-
-        private void LinkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // Go to Github Repository
-            Process.Start("https://github.com/abdessalam-aadel/ConvertMultipleExcelToPDF");
         }
 
         // Handle Methode Search Directory and Get all Excel files found,
@@ -290,6 +287,15 @@ namespace ConvertMultipleExcelToPDF
 
             foreach (string filesPath in ExcelFiles)
             {
+                FileInfo finfo = new FileInfo(filesPath);
+                string fname = finfo.Name;
+                // use regular expression to search the filename begin with ~$
+                string pattern = @"^~\$";
+                // Find matches
+                Match m = Regex.Match(fname, pattern);
+                if (m.Success)
+                    continue;
+
                 string paramSourceBookPath = filesPath;
                 // Get Extension of filePath
                 string extension = Path.GetExtension(filesPath);
@@ -320,6 +326,12 @@ namespace ConvertMultipleExcelToPDF
                 }
                 CloseWorkBook();
             }
+        }
+
+        private void ImgGit_Click(object sender, EventArgs e)
+        {
+            // Go to Github Repository
+            Process.Start("https://github.com/abdessalam-aadel/ConvertMultipleExcelToPDF");
         }
     }
 }

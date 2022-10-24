@@ -41,16 +41,17 @@
             this.labelFooter1 = new System.Windows.Forms.Label();
             this.labelFooter2 = new System.Windows.Forms.Label();
             this.labelDescription = new System.Windows.Forms.Label();
-            this.LinkGit = new System.Windows.Forms.LinkLabel();
             this.checkBoxAllWorkBook = new System.Windows.Forms.CheckBox();
             this.checkBoxDragFiles = new System.Windows.Forms.CheckBox();
             this.toolTipDrag = new System.Windows.Forms.ToolTip(this.components);
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.pictureDrag = new System.Windows.Forms.PictureBox();
             this.LoadingImage = new System.Windows.Forms.PictureBox();
+            this.ImgGit = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtFolderName
@@ -184,18 +185,6 @@
             this.labelDescription.Text = "Convert Multiple Excel file: is a simple \r\nprograme that allow you can convert \r\n" +
     "Multiple Excel files in multiple Folder \r\nto PDF in same Location.";
             // 
-            // LinkGit
-            // 
-            this.LinkGit.AutoSize = true;
-            this.LinkGit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.LinkGit.Location = new System.Drawing.Point(267, 220);
-            this.LinkGit.Name = "LinkGit";
-            this.LinkGit.Size = new System.Drawing.Size(46, 16);
-            this.LinkGit.TabIndex = 0;
-            this.LinkGit.TabStop = true;
-            this.LinkGit.Text = "Github";
-            this.LinkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
-            // 
             // checkBoxAllWorkBook
             // 
             this.checkBoxAllWorkBook.AutoSize = true;
@@ -262,6 +251,19 @@
             this.LoadingImage.TabStop = false;
             this.LoadingImage.Visible = false;
             // 
+            // ImgGit
+            // 
+            this.ImgGit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ImgGit.Image = ((System.Drawing.Image)(resources.GetObject("ImgGit.Image")));
+            this.ImgGit.Location = new System.Drawing.Point(291, 214);
+            this.ImgGit.Name = "ImgGit";
+            this.ImgGit.Size = new System.Drawing.Size(20, 20);
+            this.ImgGit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ImgGit.TabIndex = 10;
+            this.ImgGit.TabStop = false;
+            this.toolTipDrag.SetToolTip(this.ImgGit, "Go to Github Repository.");
+            this.ImgGit.Click += new System.EventHandler(this.ImgGit_Click);
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -269,9 +271,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.ImgGit);
             this.Controls.Add(this.checkBoxDragFiles);
             this.Controls.Add(this.checkBoxAllWorkBook);
-            this.Controls.Add(this.LinkGit);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelFooter2);
             this.Controls.Add(this.labelFooter1);
@@ -299,6 +301,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,11 +322,11 @@
         private System.Windows.Forms.Label labelFooter2;
         private System.Windows.Forms.PictureBox pictureLogo;
         private System.Windows.Forms.Label labelDescription;
-        private System.Windows.Forms.LinkLabel LinkGit;
         private System.Windows.Forms.CheckBox checkBoxAllWorkBook;
         private System.Windows.Forms.CheckBox checkBoxDragFiles;
         private System.Windows.Forms.PictureBox LoadingImage;
         private System.Windows.Forms.ToolTip toolTipDrag;
+        private System.Windows.Forms.PictureBox ImgGit;
     }
 }
 
