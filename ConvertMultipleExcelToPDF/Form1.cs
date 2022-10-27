@@ -11,9 +11,9 @@ namespace ConvertMultipleExcelToPDF
     public partial class FrmMain : Form
     {
         // Array of Excel Files found in Folder
-        string[] XLSfiles;
+        public static string[] XLSfiles;
         // Array of Excel Files Dragged Directly in form main
-        string[] files;
+        public static string[] files;
         string selected_path;
 
         int fileCount = 0;
@@ -167,6 +167,7 @@ namespace ConvertMultipleExcelToPDF
                 {
                     TxtFolderName.Text = "No Folder was Dragged";
                     labelInfo.Text = "...";
+                    XLSfiles = null;
                 }
             }
         }
@@ -230,6 +231,9 @@ namespace ConvertMultipleExcelToPDF
             // With this call, the worker loop executes only after
             // all finalizers have been called.
             GC.WaitForPendingFinalizers();
+            // Clear string array
+            XLSfiles = null;
+            files = null;
         }
 
         private void checkBoxAllWorkBook_CheckedChanged(object sender, EventArgs e)
@@ -249,6 +253,8 @@ namespace ConvertMultipleExcelToPDF
                 ischecked_DragFiles = true;
                 BtnLoad.Enabled = false;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Strikeout);
+                XLSfiles = null;
+                files = null;
             }
             else
             {
@@ -257,6 +263,8 @@ namespace ConvertMultipleExcelToPDF
                 ischecked_DragFiles = false;
                 BtnLoad.Enabled = true;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular);
+                XLSfiles = null;
+                files = null;
             }
         }
 

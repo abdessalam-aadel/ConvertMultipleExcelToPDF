@@ -44,14 +44,14 @@
             this.checkBoxAllWorkBook = new System.Windows.Forms.CheckBox();
             this.checkBoxDragFiles = new System.Windows.Forms.CheckBox();
             this.toolTipDrag = new System.Windows.Forms.ToolTip(this.components);
+            this.ImgGit = new System.Windows.Forms.PictureBox();
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.pictureDrag = new System.Windows.Forms.PictureBox();
             this.LoadingImage = new System.Windows.Forms.PictureBox();
-            this.ImgGit = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtFolderName
@@ -218,6 +218,19 @@
             this.checkBoxDragFiles.UseVisualStyleBackColor = false;
             this.checkBoxDragFiles.CheckedChanged += new System.EventHandler(this.checkBoxDragFiles_CheckedChanged);
             // 
+            // ImgGit
+            // 
+            this.ImgGit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ImgGit.Image = ((System.Drawing.Image)(resources.GetObject("ImgGit.Image")));
+            this.ImgGit.Location = new System.Drawing.Point(291, 214);
+            this.ImgGit.Name = "ImgGit";
+            this.ImgGit.Size = new System.Drawing.Size(20, 20);
+            this.ImgGit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ImgGit.TabIndex = 10;
+            this.ImgGit.TabStop = false;
+            this.toolTipDrag.SetToolTip(this.ImgGit, "Go to Github Repository.");
+            this.ImgGit.Click += new System.EventHandler(this.ImgGit_Click);
+            // 
             // pictureLogo
             // 
             this.pictureLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureLogo.Image")));
@@ -250,19 +263,6 @@
             this.LoadingImage.TabIndex = 9;
             this.LoadingImage.TabStop = false;
             this.LoadingImage.Visible = false;
-            // 
-            // ImgGit
-            // 
-            this.ImgGit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ImgGit.Image = ((System.Drawing.Image)(resources.GetObject("ImgGit.Image")));
-            this.ImgGit.Location = new System.Drawing.Point(291, 214);
-            this.ImgGit.Name = "ImgGit";
-            this.ImgGit.Size = new System.Drawing.Size(20, 20);
-            this.ImgGit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.ImgGit.TabIndex = 10;
-            this.ImgGit.TabStop = false;
-            this.toolTipDrag.SetToolTip(this.ImgGit, "Go to Github Repository.");
-            this.ImgGit.Click += new System.EventHandler(this.ImgGit_Click);
             // 
             // FrmMain
             // 
@@ -298,10 +298,10 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.DragLeave += new System.EventHandler(this.FrmMain_DragLeave);
+            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
