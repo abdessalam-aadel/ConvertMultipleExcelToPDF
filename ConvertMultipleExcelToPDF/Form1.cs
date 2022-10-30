@@ -316,21 +316,43 @@ namespace ConvertMultipleExcelToPDF
                         paramMissing, paramMissing, paramMissing, paramMissing,
                         paramMissing, paramMissing);
 
+                // Active sheet
+                Excel.Worksheet worksheet = excelWorkBook.ActiveSheet;
+                // Detect data in all cells in Active sheet
+                int dataCount = (int)excelApplication.WorksheetFunction.CountA(worksheet.Cells);
+                
+                // There is at least one cell on the worksheet that has non-empty contents.
                 // Save it in the target format.
                 if (excelWorkBook != null)
                 {
                     if (ischecked_WorkBook)
+                    {
                         excelWorkBook.ExportAsFixedFormat(paramExportFormat,
                         paramExportFilePath, paramExportQuality,
                         paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
                         paramToPage, paramOpenAfterPublish,
                         paramMissing); // Convert Entire WorkBook to PDF
+                    }
                     else
-                        excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
-                        paramExportFilePath, paramExportQuality,
-                        paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                        paramToPage, paramOpenAfterPublish,
-                        paramMissing); // Convert Active Sheet(s) to PDF
+                    {
+                        // Fix Exception HRESULT : 0x800A03EC
+                        // Check the Empty Active worksheet
+                        if (dataCount == 0)
+                        {
+                            // All cells on the Active worksheet are empty.
+                            // -- Skip over --
+                            // continues with the next iteration of the loop for-each
+                            continue;
+                        }
+                        else
+                        {
+                            excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
+                            paramExportFilePath, paramExportQuality,
+                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
+                            paramToPage, paramOpenAfterPublish,
+                            paramMissing); // Convert Active Sheet to PDF
+                        }
+                    }
                 }
                 CloseWorkBook();
             }
