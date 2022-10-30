@@ -238,10 +238,7 @@ namespace ConvertMultipleExcelToPDF
 
         private void checkBoxAllWorkBook_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxAllWorkBook.Checked)
-                ischecked_WorkBook = true;
-            else
-                ischecked_WorkBook = false;
+            ischecked_WorkBook = checkBoxAllWorkBook.Checked ? true : false;
         }
 
         private void checkBoxDragFiles_CheckedChanged(object sender, EventArgs e)
@@ -273,6 +270,7 @@ namespace ConvertMultipleExcelToPDF
         {
             // Creat new instance of Microsoft Excel Application
             excelApplication = new Excel.Application();
+            //excelApplication.Visible = false;
 
             // Declare Parameters :
             // ...
@@ -311,27 +309,27 @@ namespace ConvertMultipleExcelToPDF
 
                 // Open the source workbook.
                 excelWorkBook = excelApplication.Workbooks.Open(paramSourceBookPath,
-                paramMissing, paramMissing, paramMissing, paramMissing,
+                        paramMissing, paramMissing, paramMissing, paramMissing,
                         paramMissing, paramMissing, paramMissing, paramMissing,
                         paramMissing, paramMissing, paramMissing, paramMissing,
                         paramMissing, paramMissing);
 
                 // Active sheet
                 Excel.Worksheet worksheet = excelWorkBook.ActiveSheet;
-                // Detect data in all cells in Active sheet
+                // Detect data in all cells of Active sheet
                 int dataCount = (int)excelApplication.WorksheetFunction.CountA(worksheet.Cells);
-                
-                // There is at least one cell on the worksheet that has non-empty contents.
-                // Save it in the target format.
+
                 if (excelWorkBook != null)
                 {
                     if (ischecked_WorkBook)
                     {
-                        excelWorkBook.ExportAsFixedFormat(paramExportFormat,
-                        paramExportFilePath, paramExportQuality,
-                        paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
-                        paramToPage, paramOpenAfterPublish,
-                        paramMissing); // Convert Entire WorkBook to PDF
+                        // Check Entire workbook was not Empty
+                        if (!IsEmptyWorkbook(excelWorkBook))
+                            excelWorkBook.ExportAsFixedFormat(paramExportFormat,
+                            paramExportFilePath, paramExportQuality,
+                            paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
+                            paramToPage, paramOpenAfterPublish,
+                            paramMissing); // Convert Entire WorkBook to PDF
                     }
                     else
                     {
@@ -344,6 +342,8 @@ namespace ConvertMultipleExcelToPDF
                             // continues with the next iteration of the loop for-each
                             continue;
                         }
+
+                        // There is at least one cell on the worksheet that has non-empty contents.
                         else
                         {
                             excelWorkBook.ActiveSheet.ExportAsFixedFormat(paramExportFormat,
@@ -355,6 +355,23 @@ namespace ConvertMultipleExcelToPDF
                     }
                 }
                 CloseWorkBook();
+            }
+        }
+
+        public static bool IsEmptyWorkbook(Excel.Workbook wb)
+        {
+            try
+            {
+                foreach (Excel.Worksheet sheet in wb.Worksheets)
+                {
+                    if (excelApplication.WorksheetFunction.CountA(sheet.Cells) != 0)
+                        return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
