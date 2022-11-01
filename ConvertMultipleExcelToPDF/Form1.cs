@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace ConvertMultipleExcelToPDF
 {
@@ -125,7 +126,7 @@ namespace ConvertMultipleExcelToPDF
                 files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string file in files)
                 {
-                    string extensionfile = Path.GetExtension(file);
+                    string extensionfile = Path.GetExtension(file).ToLower();
 
                     if (extensionfile == ".xls" || extensionfile == ".xlsx")
                         excelDragged = true;
@@ -184,7 +185,10 @@ namespace ConvertMultipleExcelToPDF
         // and bring out to the string array
         public static int SearchDirectoryTree(string path, out string[] XLSfiles)
         {
-            XLSfiles = Directory.GetFiles(path, "*.xls", SearchOption.AllDirectories);
+            XLSfiles = Directory
+                        .GetFiles(path, "*.*", SearchOption.AllDirectories)
+                        .Where(s => s.ToLower().EndsWith(".xls") || s.ToLower().EndsWith(".xlsx"))
+                        .ToArray();
             return XLSfiles.Length;
         }
 
