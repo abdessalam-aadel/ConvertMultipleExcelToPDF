@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            this.TxtFolderName = new System.Windows.Forms.Label();
+            this.TxtDraggedFiles = new System.Windows.Forms.Label();
             this.BtnLoad = new System.Windows.Forms.Button();
             this.labelDragFolder = new System.Windows.Forms.Label();
             this.labelInfo = new System.Windows.Forms.Label();
@@ -48,21 +48,25 @@
             this.pictureLogo = new System.Windows.Forms.PictureBox();
             this.pictureDrag = new System.Windows.Forms.PictureBox();
             this.LoadingImage = new System.Windows.Forms.PictureBox();
+            this.TxtBoxLoad = new System.Windows.Forms.TextBox();
+            this.picDone = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDone)).BeginInit();
             this.SuspendLayout();
             // 
-            // TxtFolderName
+            // TxtDraggedFiles
             // 
-            this.TxtFolderName.AutoSize = true;
-            this.TxtFolderName.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.TxtFolderName.Location = new System.Drawing.Point(6, 13);
-            this.TxtFolderName.Name = "TxtFolderName";
-            this.TxtFolderName.Size = new System.Drawing.Size(184, 16);
-            this.TxtFolderName.TabIndex = 0;
-            this.TxtFolderName.Text = "Chose your Folder Location ...";
+            this.TxtDraggedFiles.AutoSize = true;
+            this.TxtDraggedFiles.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.TxtDraggedFiles.Location = new System.Drawing.Point(6, 13);
+            this.TxtDraggedFiles.Name = "TxtDraggedFiles";
+            this.TxtDraggedFiles.Size = new System.Drawing.Size(142, 16);
+            this.TxtDraggedFiles.TabIndex = 0;
+            this.TxtDraggedFiles.Text = "Drag your Excel files ...";
+            this.TxtDraggedFiles.Visible = false;
             // 
             // BtnLoad
             // 
@@ -95,8 +99,9 @@
             // labelInfo
             // 
             this.labelInfo.AutoSize = true;
+            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelInfo.ForeColor = System.Drawing.Color.ForestGreen;
-            this.labelInfo.Location = new System.Drawing.Point(6, 35);
+            this.labelInfo.Location = new System.Drawing.Point(6, 36);
             this.labelInfo.Name = "labelInfo";
             this.labelInfo.Size = new System.Drawing.Size(17, 16);
             this.labelInfo.TabIndex = 0;
@@ -264,6 +269,27 @@
             this.LoadingImage.TabStop = false;
             this.LoadingImage.Visible = false;
             // 
+            // TxtBoxLoad
+            // 
+            this.TxtBoxLoad.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.TxtBoxLoad.Location = new System.Drawing.Point(8, 11);
+            this.TxtBoxLoad.Name = "TxtBoxLoad";
+            this.TxtBoxLoad.ReadOnly = true;
+            this.TxtBoxLoad.Size = new System.Drawing.Size(374, 22);
+            this.TxtBoxLoad.TabIndex = 11;
+            this.TxtBoxLoad.Text = "Chose your folder location ...";
+            // 
+            // picDone
+            // 
+            this.picDone.Image = ((System.Drawing.Image)(resources.GetObject("picDone.Image")));
+            this.picDone.Location = new System.Drawing.Point(47, 38);
+            this.picDone.Name = "picDone";
+            this.picDone.Size = new System.Drawing.Size(14, 14);
+            this.picDone.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picDone.TabIndex = 12;
+            this.picDone.TabStop = false;
+            this.picDone.Visible = false;
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -271,6 +297,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.picDone);
+            this.Controls.Add(this.TxtBoxLoad);
             this.Controls.Add(this.ImgGit);
             this.Controls.Add(this.checkBoxDragFiles);
             this.Controls.Add(this.checkBoxAllWorkBook);
@@ -283,7 +311,7 @@
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.labelDragFolder);
             this.Controls.Add(this.BtnLoad);
-            this.Controls.Add(this.TxtFolderName);
+            this.Controls.Add(this.TxtDraggedFiles);
             this.Controls.Add(this.pictureLogo);
             this.Controls.Add(this.pictureDrag);
             this.Controls.Add(this.LoadingImage);
@@ -302,6 +330,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picDone)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -309,7 +338,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label TxtFolderName;
+        private System.Windows.Forms.Label TxtDraggedFiles;
         private System.Windows.Forms.Button BtnLoad;
         private System.Windows.Forms.Label labelDragFolder;
         private System.Windows.Forms.PictureBox pictureDrag;
@@ -327,6 +356,8 @@
         private System.Windows.Forms.PictureBox LoadingImage;
         private System.Windows.Forms.ToolTip toolTipDrag;
         private System.Windows.Forms.PictureBox ImgGit;
+        private System.Windows.Forms.TextBox TxtBoxLoad;
+        private System.Windows.Forms.PictureBox picDone;
     }
 }
 

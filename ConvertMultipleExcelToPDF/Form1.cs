@@ -42,7 +42,7 @@ namespace ConvertMultipleExcelToPDF
 
             else
             {
-                if ( XLSfiles == null || string.IsNullOrEmpty(TxtFolderName.Text) )
+                if ( XLSfiles == null || string.IsNullOrEmpty(TxtBoxLoad.Text) )
                 {
                     IconError.Visible = true;
                     labelErrorMessage.Text = "No source folder was selected, Please select one.";
@@ -58,6 +58,7 @@ namespace ConvertMultipleExcelToPDF
             }
 
             IconError.Visible = false;
+            picDone.Visible = false;
             labelErrorMessage.Text = "";
             Cursor = Cursors.WaitCursor;
             labelInfo.Text = "Processing ...";
@@ -65,18 +66,24 @@ namespace ConvertMultipleExcelToPDF
             try
             {
                 ProcessFiles(XLSfiles, files);
-                labelInfo.Text = "Done!";
+                labelInfo.Text = "Done";
+                picDone.Visible = true;
+                if (ischecked_DragFiles)
+                    TxtDraggedFiles.Text = "Drag your Excel files ...";
+                else
+                    TxtBoxLoad.Text = "Chose your folder location ...";
                 Cursor = Cursors.Default;
             }
             catch (Exception ex)
             {
                 labelErrorMessage.Text = ex.Message.ToString();
                 Cursor = Cursors.Default;
+                picDone.Visible = false;
                 labelInfo.Text = "...";
                 if (ischecked_DragFiles)
-                    TxtFolderName.Text = "Drag your Excel files ...";
+                    TxtDraggedFiles.Text = "Drag your Excel files ...";
                 else
-                    TxtFolderName.Text = "Chose your Folder Location ...";
+                    TxtBoxLoad.Text = "Chose your folder location ...";
                 IconError.Visible = false;
                 CloseWorkBook();
                 QuitExcel();
@@ -89,6 +96,7 @@ namespace ConvertMultipleExcelToPDF
             labelErrorMessage.Text = string.Empty;
             pictureDrag.Visible = false;
             IconError.Visible = false;
+            picDone.Visible = false;
             FolderBrowserDialog FD = new FolderBrowserDialog();
             if (selected_path != null)
                 FD.SelectedPath = selected_path;
@@ -96,7 +104,7 @@ namespace ConvertMultipleExcelToPDF
             {
                 string path = FD.SelectedPath;
                 selected_path = path;
-                TxtFolderName.Text = path;
+                TxtBoxLoad.Text = path;
                 fileCount = SearchDirectoryTree(path, out XLSfiles);
                 labelInfo.Text = fileCount + " Excel files found";
             }
@@ -110,18 +118,20 @@ namespace ConvertMultipleExcelToPDF
             labelErrorMessage.Text = string.Empty;
             labelInfo.Text = string.Empty;
             IconError.Visible = false;
-            TxtFolderName.Visible = false;
+            TxtDraggedFiles.Visible = false;
             LoadingImage.Visible = true;
+            TxtBoxLoad.Visible = false;
+            picDone.Visible = false;
         }
 
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
             pictureDrag.Visible = false;
             LoadingImage.Visible = false;
-            TxtFolderName.Visible = true;
 
             if (ischecked_DragFiles)
             {
+                TxtDraggedFiles.Visible = true;
                 // Handle event Drag the Excel files.
                 files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 foreach (string file in files)
@@ -139,7 +149,7 @@ namespace ConvertMultipleExcelToPDF
 
                 if (excelDragged)
                 {
-                    TxtFolderName.Text = "Excel Files was Dragged correctly.";
+                    TxtDraggedFiles.Text = "Excel Files was Dragged correctly.";
                     labelErrorMessage.Text = string.Empty;
                     IconError.Visible = false;
                     labelInfo.Text = files.Length + " Excel files found";
@@ -147,26 +157,27 @@ namespace ConvertMultipleExcelToPDF
 
                 else
                 {
-                    TxtFolderName.Text = "No Excel Files was Dragged";
+                    TxtDraggedFiles.Text = "No Excel Files was Dragged";
                     labelInfo.Text = "...";
                 }
             }
 
             else
             {
+                TxtBoxLoad.Visible = true;
                 // Handle event Drag the Folder.
                 string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
                 if (Directory.Exists(path))
                 {
                     labelErrorMessage.Text = string.Empty;
                     IconError.Visible = false;
-                    TxtFolderName.Text = path;
+                    TxtBoxLoad.Text = path;
                     fileCount = SearchDirectoryTree(path, out XLSfiles);
                     labelInfo.Text = fileCount + " Excel files found";
                 }
                 else
                 {
-                    TxtFolderName.Text = "No Folder was Dragged";
+                    TxtBoxLoad.Text = "No Folder was Dragged";
                     labelInfo.Text = "...";
                     XLSfiles = null;
                 }
@@ -177,7 +188,10 @@ namespace ConvertMultipleExcelToPDF
         {
             pictureDrag.Visible = false;
             LoadingImage.Visible = false;
-            TxtFolderName.Visible = true;
+            if (ischecked_DragFiles)
+                TxtDraggedFiles.Visible = true;
+            else
+                TxtBoxLoad.Visible = true;
             labelInfo.Text = "...";
         }
 
@@ -249,8 +263,11 @@ namespace ConvertMultipleExcelToPDF
         {
             if (checkBoxDragFiles.Checked)
             {
-                TxtFolderName.Text = "Drag your Excel files ...";
+                TxtBoxLoad.Visible = false;
+                TxtDraggedFiles.Visible = true;
+                TxtDraggedFiles.Text = "Drag your Excel files ...";
                 labelInfo.Text = "...";
+                picDone.Visible = false;
                 ischecked_DragFiles = true;
                 BtnLoad.Enabled = false;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Strikeout);
@@ -259,8 +276,11 @@ namespace ConvertMultipleExcelToPDF
             }
             else
             {
-                TxtFolderName.Text = "Chose your Folder Location ...";
+                TxtDraggedFiles.Visible = false;
+                TxtBoxLoad.Visible = true;
+                TxtBoxLoad.Text = "Chose your folder location ...";
                 labelInfo.Text = "...";
+                picDone.Visible = false;
                 ischecked_DragFiles = false;
                 BtnLoad.Enabled = true;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular);
