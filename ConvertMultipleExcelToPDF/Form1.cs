@@ -12,24 +12,28 @@ namespace ConvertMultipleExcelToPDF
     public partial class FrmMain : Form
     {
         // Array of Excel Files found in Folder
-        public static string[] XLSfiles;
+        string[] XLSfiles;
         // Array of Excel Files Dragged Directly in form main
-        public static string[] files;
+        string[] files;
         string selected_path;
 
         int fileCount = 0;
-        public static bool excelDragged = false;
-        public static bool ischecked_WorkBook = false;
-        public static bool ischecked_DragFiles = false;
-        private static Excel.Application excelApplication = null;
-        private static Excel.Workbook excelWorkBook = null;
-        private static object paramMissing = Type.Missing;
+        bool excelDragged = false;
+        bool ischecked_WorkBook = false;
+        bool ischecked_DragFiles = false;
+        Excel.Application excelApplication = null;
+        Excel.Workbook excelWorkBook = null;
+        object paramMissing = Type.Missing;
+        string addTip;
 
         public FrmMain() => InitializeComponent();
 
         // Handle Event Click of Buttton Let's Go
         private void BtnLetsGo_Click(object sender, EventArgs e)
         {
+            LabelEmptyXLS.Visible = false;
+            addTip = "";
+
             if ( ischecked_DragFiles )
             {
                 if ( files == null || !excelDragged )
@@ -76,6 +80,7 @@ namespace ConvertMultipleExcelToPDF
             }
             catch (Exception ex)
             {
+                LabelEmptyXLS.Visible = false;
                 labelErrorMessage.Text = ex.Message.ToString();
                 Cursor = Cursors.Default;
                 picDone.Visible = false;
@@ -107,12 +112,14 @@ namespace ConvertMultipleExcelToPDF
                 TxtBoxLoad.Text = path;
                 fileCount = SearchDirectoryTree(path, out XLSfiles);
                 labelInfo.Text = fileCount + " Excel files found";
+                LabelEmptyXLS.Visible = false;
             }
         }
 
         // Activate Drag & Drop in Form Main ...
         private void FrmMain_DragEnter(object sender, DragEventArgs e)
         {
+            LabelEmptyXLS.Visible = false;
             e.Effect = DragDropEffects.Copy;
             pictureDrag.Visible = true;
             labelErrorMessage.Text = string.Empty;
@@ -207,7 +214,7 @@ namespace ConvertMultipleExcelToPDF
 
         // Handle Methode Search Directory and Get all Excel files found,
         // and bring out to the string array
-        public static int SearchDirectoryTree(string path, out string[] XLSfiles)
+        private int SearchDirectoryTree(string path, out string[] XLSfiles)
         {
             XLSfiles = Directory
                         .GetFiles(path, "*.*", SearchOption.AllDirectories)
@@ -217,7 +224,7 @@ namespace ConvertMultipleExcelToPDF
         }
 
         // Start Methode ProcessFiles
-        public static void ProcessFiles(string[] XLSfiles, string[] files)
+        private void ProcessFiles(string[] XLSfiles, string[] files)
         {
             // Condition to separat : Folder or Excel files was Dragged
             if (ischecked_DragFiles)
@@ -230,7 +237,7 @@ namespace ConvertMultipleExcelToPDF
         }
 
         // Start Method CloseWorkBook
-        public static void CloseWorkBook()
+        private void CloseWorkBook()
         {
             if (excelWorkBook != null)
             {
@@ -241,7 +248,7 @@ namespace ConvertMultipleExcelToPDF
         }
 
         // Start Method QuitExcel
-        public static void QuitExcel()
+        private void QuitExcel()
         {
             // Quit Excel and release the ApplicationClass object.
             if (excelApplication != null)
@@ -271,36 +278,35 @@ namespace ConvertMultipleExcelToPDF
 
         private void checkBoxDragFiles_CheckedChanged(object sender, EventArgs e)
         {
+            labelInfo.Text = "...";
+            picDone.Visible = false;
+            XLSfiles = null;
+            files = null;
+            LabelEmptyXLS.Visible = false;
+            addTip = "";
+
             if (checkBoxDragFiles.Checked)
             {
                 TxtBoxLoad.Visible = false;
                 TxtDraggedFiles.Visible = true;
                 TxtDraggedFiles.Text = "Drag your Excel files ...";
-                labelInfo.Text = "...";
-                picDone.Visible = false;
                 ischecked_DragFiles = true;
                 BtnLoad.Enabled = false;
                 labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Strikeout);
-                XLSfiles = null;
-                files = null;
             }
             else
             {
                 TxtDraggedFiles.Visible = false;
                 TxtBoxLoad.Visible = true;
                 TxtBoxLoad.Text = "Chose your folder location ...";
-                labelInfo.Text = "...";
-                picDone.Visible = false;
                 ischecked_DragFiles = false;
                 BtnLoad.Enabled = true;
-                labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular);
-                XLSfiles = null;
-                files = null;
+                labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular); 
             }
         }
 
         // Start Method StartConvert
-        public static void StartConvert(string[] ExcelFiles)
+        private void StartConvert(string[] ExcelFiles)
         {
             // Creat new instance of Microsoft Excel Application
             excelApplication = new Excel.Application();
@@ -364,6 +370,12 @@ namespace ConvertMultipleExcelToPDF
                             paramIncludeDocProps, paramIgnorePrintAreas, paramFromPage,
                             paramToPage, paramOpenAfterPublish,
                             paramMissing); // Convert Entire WorkBook to PDF
+                        else
+                        {
+                            LabelEmptyXLS.Visible = true;
+                            addTip += fname + "\r\n";
+                            toolTipDrag.SetToolTip(LabelEmptyXLS, addTip);
+                        }
                     }
                     else
                     {
@@ -371,6 +383,9 @@ namespace ConvertMultipleExcelToPDF
                         // Check the Empty Active worksheet
                         if (dataCount == 0)
                         {
+                            LabelEmptyXLS.Visible = true;
+                            addTip += fname + "\r\n";
+                            toolTipDrag.SetToolTip(LabelEmptyXLS, addTip);
                             // All cells on the Active worksheet are empty.
                             // -- Skip over --
                             // continues with the next iteration of the loop for-each
@@ -392,7 +407,7 @@ namespace ConvertMultipleExcelToPDF
             }
         }
 
-        public static bool IsEmptyWorkbook(Excel.Workbook wb)
+        private bool IsEmptyWorkbook(Excel.Workbook wb)
         {
             try
             {
@@ -413,6 +428,11 @@ namespace ConvertMultipleExcelToPDF
         {
             // Go to Github Repository
             Process.Start("https://github.com/abdessalam-aadel/ConvertMultipleExcelToPDF");
+        }
+
+        private void LabelEmptyXLS_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(addTip,"Empty Excel files",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
     }
 }

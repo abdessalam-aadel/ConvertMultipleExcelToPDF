@@ -50,6 +50,7 @@
             this.LoadingImage = new System.Windows.Forms.PictureBox();
             this.TxtBoxLoad = new System.Windows.Forms.TextBox();
             this.picDone = new System.Windows.Forms.PictureBox();
+            this.LabelEmptyXLS = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ImgGit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag)).BeginInit();
@@ -290,6 +291,21 @@
             this.picDone.TabStop = false;
             this.picDone.Visible = false;
             // 
+            // LabelEmptyXLS
+            // 
+            this.LabelEmptyXLS.AutoSize = true;
+            this.LabelEmptyXLS.BackColor = System.Drawing.Color.Transparent;
+            this.LabelEmptyXLS.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LabelEmptyXLS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelEmptyXLS.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.LabelEmptyXLS.Location = new System.Drawing.Point(163, 37);
+            this.LabelEmptyXLS.Name = "LabelEmptyXLS";
+            this.LabelEmptyXLS.Size = new System.Drawing.Size(82, 16);
+            this.LabelEmptyXLS.TabIndex = 13;
+            this.LabelEmptyXLS.Text = "Empty Excel";
+            this.LabelEmptyXLS.Visible = false;
+            this.LabelEmptyXLS.Click += new System.EventHandler(this.LabelEmptyXLS_Click);
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -297,6 +313,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(580, 238);
+            this.Controls.Add(this.LabelEmptyXLS);
             this.Controls.Add(this.picDone);
             this.Controls.Add(this.TxtBoxLoad);
             this.Controls.Add(this.ImgGit);
@@ -358,6 +375,7 @@
         private System.Windows.Forms.PictureBox ImgGit;
         private System.Windows.Forms.TextBox TxtBoxLoad;
         private System.Windows.Forms.PictureBox picDone;
+        private System.Windows.Forms.Label LabelEmptyXLS;
     }
 }
 
