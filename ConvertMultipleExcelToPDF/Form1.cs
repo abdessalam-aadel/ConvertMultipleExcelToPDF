@@ -116,7 +116,7 @@ namespace ConvertMultipleExcelToPDF
             e.Effect = DragDropEffects.Copy;
             pictureDrag.Visible = true;
             labelErrorMessage.Text = string.Empty;
-            labelInfo.Text = string.Empty;
+            labelInfo.Visible = false;
             IconError.Visible = false;
             TxtDraggedFiles.Visible = false;
             LoadingImage.Visible = true;
@@ -128,6 +128,7 @@ namespace ConvertMultipleExcelToPDF
         {
             pictureDrag.Visible = false;
             LoadingImage.Visible = false;
+            labelInfo.Visible = true;
 
             if (ischecked_DragFiles)
             {
@@ -188,11 +189,20 @@ namespace ConvertMultipleExcelToPDF
         {
             pictureDrag.Visible = false;
             LoadingImage.Visible = false;
-            if (ischecked_DragFiles)
-                TxtDraggedFiles.Visible = true;
-            else
-                TxtBoxLoad.Visible = true;
+            labelInfo.Visible = true;
             labelInfo.Text = "...";
+            if (ischecked_DragFiles)
+            {
+                TxtDraggedFiles.Visible = true;
+                TxtDraggedFiles.Text = "Drag your Excel files ...";
+            }
+            else
+            {
+                TxtBoxLoad.Visible = true;
+                TxtBoxLoad.Text = "Chose your folder location ...";
+            }
+            XLSfiles = null;
+            files = null;
         }
 
         // Handle Methode Search Directory and Get all Excel files found,
