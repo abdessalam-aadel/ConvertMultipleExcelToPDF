@@ -15,16 +15,24 @@ namespace ConvertMultipleExcelToPDF
         string[] XLSfiles;
         // Array of Excel Files Dragged Directly in form main
         string[] files;
-        string selected_path;
 
+        // Default Text
+        string defaultTxtDrag = "Drag your Excel files ...";
+        string defaultTxtLoad = "Chose your folder location ...";
+        // Store slected path of Folder browser dialog in variable
+        string selected_path;
+        // Create fileCount to counting number of Excel files found
         int fileCount = 0;
+        // Create addTip variable to store All empty excel files
+        string addTip;
+
         bool excelDragged = false;
-        bool ischecked_WorkBook = false;
         bool ischecked_DragFiles = false;
+        bool ischecked_WorkBook = false;
+
         Excel.Application excelApplication = null;
         Excel.Workbook excelWorkBook = null;
         object paramMissing = Type.Missing;
-        string addTip;
 
         public FrmMain() => InitializeComponent();
 
@@ -33,6 +41,8 @@ namespace ConvertMultipleExcelToPDF
         {
             LabelEmptyXLS.Visible = false;
             addTip = "";
+            picDone.Visible = false;
+            labelInfo.Text = "...";
 
             if ( ischecked_DragFiles )
             {
@@ -62,7 +72,6 @@ namespace ConvertMultipleExcelToPDF
             }
 
             IconError.Visible = false;
-            picDone.Visible = false;
             labelErrorMessage.Text = "";
             Cursor = Cursors.WaitCursor;
             labelInfo.Text = "Processing ...";
@@ -70,72 +79,79 @@ namespace ConvertMultipleExcelToPDF
             try
             {
                 ProcessFiles(XLSfiles, files);
-                labelInfo.Text = "Done";
-                picDone.Visible = true;
-                if (ischecked_DragFiles)
-                    TxtDraggedFiles.Text = "Drag your Excel files ...";
-                else
-                    TxtBoxLoad.Text = "Chose your folder location ...";
-                Cursor = Cursors.Default;
+                ChangeToDefault(true);
             }
             catch (Exception ex)
             {
-                LabelEmptyXLS.Visible = false;
                 labelErrorMessage.Text = ex.Message.ToString();
-                Cursor = Cursors.Default;
-                picDone.Visible = false;
-                labelInfo.Text = "...";
-                if (ischecked_DragFiles)
-                    TxtDraggedFiles.Text = "Drag your Excel files ...";
-                else
-                    TxtBoxLoad.Text = "Chose your folder location ...";
-                IconError.Visible = false;
+                ChangeToDefault(false);
                 CloseWorkBook();
                 QuitExcel();
+            }
+        }
+
+        private void ChangeToDefault(bool Done)
+        {
+            Cursor = Cursors.Default;
+            if (ischecked_DragFiles)
+                TxtDraggedFiles.Text = defaultTxtDrag;
+            else
+                TxtBoxLoad.Text = defaultTxtLoad;
+            if (Done)
+            {
+                labelInfo.Text = "Done";
+                picDone.Visible = true;
+            }
+            else
+            {
+                LabelEmptyXLS.Visible = false;
+                picDone.Visible = false;
+                labelInfo.Text = "...";
+                IconError.Visible = false;
             }
         }
 
         // Handle Event Click of Buttton Load Folder
         private void BtnLoad_Click(object sender, EventArgs e)
         {
-            labelErrorMessage.Text = string.Empty;
-            pictureDrag.Visible = false;
-            IconError.Visible = false;
-            picDone.Visible = false;
             FolderBrowserDialog FD = new FolderBrowserDialog();
             if (selected_path != null)
                 FD.SelectedPath = selected_path;
             if (FD.ShowDialog() == DialogResult.OK)
             {
+                HideControls("Load");
                 string path = FD.SelectedPath;
                 selected_path = path;
                 TxtBoxLoad.Text = path;
-                fileCount = SearchDirectoryTree(path, out XLSfiles);
+                fileCount = SearchXLSFiles(path, out XLSfiles);
                 labelInfo.Text = fileCount + " Excel files found";
-                LabelEmptyXLS.Visible = false;
+            }
+        }
+
+        private void HideControls(string DragOrLoad)
+        {
+            labelErrorMessage.Text = string.Empty;
+            IconError.Visible = false;
+            picDone.Visible = false;
+            LabelEmptyXLS.Visible = false;
+            if(DragOrLoad == "Drag")
+            {
+                TxtDraggedFiles.Visible = false;
+                TxtBoxLoad.Visible = false;
             }
         }
 
         // Activate Drag & Drop in Form Main ...
         private void FrmMain_DragEnter(object sender, DragEventArgs e)
         {
-            LabelEmptyXLS.Visible = false;
             e.Effect = DragDropEffects.Copy;
-            pictureDrag.Visible = true;
-            labelErrorMessage.Text = string.Empty;
-            labelInfo.Visible = false;
-            IconError.Visible = false;
-            TxtDraggedFiles.Visible = false;
-            LoadingImage.Visible = true;
-            TxtBoxLoad.Visible = false;
-            picDone.Visible = false;
+            ShowImgDrag(true);
+            HideControls("Drag");
         }
 
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
-            pictureDrag.Visible = false;
-            LoadingImage.Visible = false;
-            labelInfo.Visible = true;
+            ShowImgDrag(false);
 
             if (ischecked_DragFiles)
             {
@@ -157,9 +173,7 @@ namespace ConvertMultipleExcelToPDF
 
                 if (excelDragged)
                 {
-                    TxtDraggedFiles.Text = "Excel Files was Dragged correctly.";
-                    labelErrorMessage.Text = string.Empty;
-                    IconError.Visible = false;
+                    TxtDraggedFiles.Text = "Excel Files was Dragged correctly.";   
                     labelInfo.Text = files.Length + " Excel files found";
                 }
 
@@ -167,6 +181,7 @@ namespace ConvertMultipleExcelToPDF
                 {
                     TxtDraggedFiles.Text = "No Excel Files was Dragged";
                     labelInfo.Text = "...";
+                    files = null;
                 }
             }
 
@@ -177,10 +192,8 @@ namespace ConvertMultipleExcelToPDF
                 string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
                 if (Directory.Exists(path))
                 {
-                    labelErrorMessage.Text = string.Empty;
-                    IconError.Visible = false;
                     TxtBoxLoad.Text = path;
-                    fileCount = SearchDirectoryTree(path, out XLSfiles);
+                    fileCount = SearchXLSFiles(path, out XLSfiles);
                     labelInfo.Text = fileCount + " Excel files found";
                 }
                 else
@@ -194,27 +207,33 @@ namespace ConvertMultipleExcelToPDF
 
         private void FrmMain_DragLeave(object sender, EventArgs e)
         {
-            pictureDrag.Visible = false;
-            LoadingImage.Visible = false;
-            labelInfo.Visible = true;
+            ShowImgDrag(false);
             labelInfo.Text = "...";
+
             if (ischecked_DragFiles)
             {
                 TxtDraggedFiles.Visible = true;
-                TxtDraggedFiles.Text = "Drag your Excel files ...";
+                TxtDraggedFiles.Text = defaultTxtDrag;
             }
             else
             {
                 TxtBoxLoad.Visible = true;
-                TxtBoxLoad.Text = "Chose your folder location ...";
+                TxtBoxLoad.Text = defaultTxtLoad;
             }
             XLSfiles = null;
             files = null;
         }
 
-        // Handle Methode Search Directory and Get all Excel files found,
+        private void ShowImgDrag(bool condition)
+        {
+            pictureDrag.Visible = condition ? true : false;
+            LoadingImage.Visible = condition ? true : false;
+            labelInfo.Visible = condition ? false : true;
+        }
+
+        // Handle Methode Search in all Sub-Directory and Get all Excel files found,
         // and bring out to the string array
-        private int SearchDirectoryTree(string path, out string[] XLSfiles)
+        private int SearchXLSFiles(string path, out string[] XLSfiles)
         {
             XLSfiles = Directory
                         .GetFiles(path, "*.*", SearchOption.AllDirectories)
@@ -278,31 +297,23 @@ namespace ConvertMultipleExcelToPDF
 
         private void checkBoxDragFiles_CheckedChanged(object sender, EventArgs e)
         {
+            HideControls("CheckBox");
             labelInfo.Text = "...";
-            picDone.Visible = false;
             XLSfiles = null;
             files = null;
-            LabelEmptyXLS.Visible = false;
             addTip = "";
 
-            if (checkBoxDragFiles.Checked)
-            {
-                TxtBoxLoad.Visible = false;
-                TxtDraggedFiles.Visible = true;
-                TxtDraggedFiles.Text = "Drag your Excel files ...";
-                ischecked_DragFiles = true;
-                BtnLoad.Enabled = false;
-                labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Strikeout);
-            }
+            TxtBoxLoad.Visible = checkBoxDragFiles.Checked ? false : true;
+            TxtDraggedFiles.Visible = checkBoxDragFiles.Checked ? true : false;
+            ischecked_DragFiles = checkBoxDragFiles.Checked ? true : false;
+            BtnLoad.Enabled = checkBoxDragFiles.Checked ? false : true;
+            labelDragFolder.Font = checkBoxDragFiles.Checked ? 
+                                    new Font(labelDragFolder.Font, FontStyle.Strikeout) :
+                                    new Font(labelDragFolder.Font, FontStyle.Regular);
+            if(checkBoxDragFiles.Checked)
+                TxtDraggedFiles.Text = defaultTxtDrag;
             else
-            {
-                TxtDraggedFiles.Visible = false;
-                TxtBoxLoad.Visible = true;
-                TxtBoxLoad.Text = "Chose your folder location ...";
-                ischecked_DragFiles = false;
-                BtnLoad.Enabled = true;
-                labelDragFolder.Font = new Font(labelDragFolder.Font, FontStyle.Regular); 
-            }
+                TxtBoxLoad.Text = defaultTxtLoad;
         }
 
         // Start Method StartConvert
